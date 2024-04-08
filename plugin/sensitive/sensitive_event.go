@@ -30,10 +30,11 @@ func loadGroupEvent(core *OPQBot.Core) {
 		}
 		if _, ok := sensitiveCount[groupMsg.GetSenderUin()]; !ok {
 			sensitiveCount[groupMsg.GetSenderUin()] = 1
-		} else if sensitiveCount[groupMsg.GetSenderUin()] < 3 {
+		} else if sensitiveCount[groupMsg.GetSenderUin()] < 2 {
 			sensitiveCount[groupMsg.GetSenderUin()]++
 		} else {
-			_ = apiBuilder.New(config.ApiUrl, event.GetCurrentQQ()).GroupManager().ProhibitedUser().ToGUin(groupMsg.GetGroupUin()).ToUid("todo get sender uid").ShutTime(60).Do(ctx)
+			delete(sensitiveCount, groupMsg.GetSenderUin())
+			_ = apiBuilder.New(config.ApiUrl, event.GetCurrentQQ()).GroupManager().ProhibitedUser().ToGUin(groupMsg.GetGroupUin()).ToUid(groupMsg.GetSenderUid()).ShutTime(60).Do(ctx)
 		}
 		_ = util.SendGroupMsg(event, groupMsg, ctx, "请勿发送不当言论，达到3次将禁言")
 		_ = apiBuilder.New(config.ApiUrl, event.GetCurrentQQ()).GroupManager().RevokeMsg().ToGUin(groupMsg.GetGroupUin()).MsgSeq(groupMsg.GetMsgSeq()).MsgRandom(groupMsg.GetMsgRandom()).Do(ctx)

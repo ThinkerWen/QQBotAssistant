@@ -1,6 +1,7 @@
 package config
 
 import (
+	"encoding/json"
 	"github.com/spf13/viper"
 	"log"
 	"os"
@@ -16,14 +17,14 @@ var Sensitive = CONFIG.Sensitive
 type Config struct {
 	Name      string          `mapstructure:"name"`
 	ApiUrl    string          `mapstructure:"api_url"`
-	HeroPower HeroPowerConfig `mapstructure:"hero_power"`
+	HeroPower HeroPowerConfig `mapstructure:"hero_power" json:"hero_power"`
 	Molly     MollyConfig     `mapstructure:"molly"`
 	Sensitive SensitiveConfig `mapstructure:"sensitive"`
 }
 
 type HeroPowerConfig struct {
-	Enable bool    `mapstructure:"enable"`
-	Token  string  `mapstructure:"token"`
+	Enable bool    `mapstructure:"enable" json:"enable"`
+	Token  string  `mapstructure:"token" json:"token"`
 	Hosts  []int64 `mapstructure:"hosts"`
 	Groups []int64 `mapstructure:"groups"`
 }
@@ -32,8 +33,8 @@ type MollyConfig struct {
 	Enable    bool   `mapstructure:"enable"`
 	QQ        int64  `mapstructure:"qq"`
 	Name      string `mapstructure:"name"`
-	ApiKey    string `mapstructure:"api_key"`
-	ApiSecret string `mapstructure:"api_secret"`
+	ApiKey    string `mapstructure:"api_key" json:"api_key"`
+	ApiSecret string `mapstructure:"api_secret" json:"api_secret"`
 }
 
 type SensitiveConfig struct {
@@ -60,6 +61,8 @@ func initConfig() Config {
 }
 
 func initDefaultConfig() {
+	var data []byte
+	var config map[string]interface{}
 	heroPower := new(HeroPowerConfig)
 	heroPower.Token = "free"
 	heroPower.Enable = true
@@ -67,12 +70,14 @@ func initDefaultConfig() {
 
 	molly := new(MollyConfig)
 	molly.Enable = true
-	viper.SetDefault("molly", *molly)
+	data, _ = json.Marshal(*molly)
+	_ = json.Unmarshal(data, &config)
+	viper.SetDefault("molly", config)
 
 	sensitive := new(SensitiveConfig)
 	sensitive.Token = "free"
 	sensitive.Enable = true
-	viper.SetDefault("molly", *molly)
+	viper.SetDefault("sensitive", *sensitive)
 
 	viper.SetDefault("api_url", "http://127.0.0.1:8086")
 }

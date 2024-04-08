@@ -10,7 +10,7 @@ import (
 
 func isSensitive(content string) bool {
 	headers := make(map[string]string)
-	headers["Content-Type"] = "application/json; charset=utf-8"
+	headers["Content-Type"] = "application/json"
 	data := fmt.Sprintf(`{"content":"%s","token":"%s"}`, content, config.Sensitive.Token)
 	response, err := util.RequestPOST("https://www.hive-net.cn/funtools/sensitive/check", data, headers, nil)
 	if err != nil || gjson.Get(string(response), "code").Int() != 0 {
