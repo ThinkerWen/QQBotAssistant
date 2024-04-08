@@ -10,11 +10,13 @@ var CONFIG = initConfig()
 
 var ApiUrl = CONFIG.ApiUrl
 var HeroPower = CONFIG.HeroPower
+var Molly = CONFIG.Molly
 
 type Config struct {
 	Name      string          `mapstructure:"name"`
 	ApiUrl    string          `mapstructure:"api_url"`
 	HeroPower HeroPowerConfig `mapstructure:"hero_power"`
+	Molly     MollyConfig     `mapstructure:"molly"`
 }
 
 type HeroPowerConfig struct {
@@ -22,6 +24,14 @@ type HeroPowerConfig struct {
 	Token  string  `mapstructure:"token"`
 	Hosts  []int64 `mapstructure:"hosts"`
 	Groups []int64 `mapstructure:"groups"`
+}
+
+type MollyConfig struct {
+	Enable    bool   `mapstructure:"enable"`
+	QQ        int64  `mapstructure:"qq"`
+	Name      string `mapstructure:"name"`
+	ApiKey    string `mapstructure:"api_key"`
+	ApiSecret string `mapstructure:"api_secret"`
 }
 
 func initConfig() Config {
@@ -45,7 +55,12 @@ func initConfig() Config {
 func initDefaultConfig() {
 	heroPower := new(HeroPowerConfig)
 	heroPower.Token = "free"
+	heroPower.Enable = true
 	viper.SetDefault("hero_power", *heroPower)
+
+	molly := new(MollyConfig)
+	molly.Enable = true
+	viper.SetDefault("molly", *molly)
 
 	viper.SetDefault("api_url", "http://127.0.0.1:8086")
 }
