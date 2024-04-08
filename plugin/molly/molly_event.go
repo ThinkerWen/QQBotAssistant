@@ -31,9 +31,9 @@ func loadGroupEvent(core *OPQBot.Core) {
 		data := new(ContentMolly)
 		data.Type = 2
 		data.Content = message
-		data.ToName = config.Molly.Name
+		data.ToName = groupMsg.GetGroupInfo().GroupName
 		data.FromName = groupMsg.GetSenderNick()
-		data.To = strconv.FormatInt(config.Molly.QQ, 10)
+		data.To = strconv.FormatInt(groupMsg.GetGroupUin(), 10)
 		data.From = strconv.FormatInt(groupMsg.GetSenderUin(), 10)
 		result := mollyChat(*data)
 		if result == "" || gjson.Get(result, "code").Str != "00000" || len(gjson.Get(result, "data").Array()) == 0 {
