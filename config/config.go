@@ -11,12 +11,14 @@ var CONFIG = initConfig()
 var ApiUrl = CONFIG.ApiUrl
 var HeroPower = CONFIG.HeroPower
 var Molly = CONFIG.Molly
+var Sensitive = CONFIG.Sensitive
 
 type Config struct {
 	Name      string          `mapstructure:"name"`
 	ApiUrl    string          `mapstructure:"api_url"`
 	HeroPower HeroPowerConfig `mapstructure:"hero_power"`
 	Molly     MollyConfig     `mapstructure:"molly"`
+	Sensitive SensitiveConfig `mapstructure:"sensitive"`
 }
 
 type HeroPowerConfig struct {
@@ -32,6 +34,11 @@ type MollyConfig struct {
 	Name      string `mapstructure:"name"`
 	ApiKey    string `mapstructure:"api_key"`
 	ApiSecret string `mapstructure:"api_secret"`
+}
+
+type SensitiveConfig struct {
+	Enable bool   `mapstructure:"enable"`
+	Token  string `mapstructure:"token"`
 }
 
 func initConfig() Config {
@@ -62,9 +69,16 @@ func initDefaultConfig() {
 	molly.Enable = true
 	viper.SetDefault("molly", *molly)
 
+	sensitive := new(SensitiveConfig)
+	sensitive.Token = "free"
+	sensitive.Enable = true
+	viper.SetDefault("molly", *molly)
+
 	viper.SetDefault("api_url", "http://127.0.0.1:8086")
 }
 
 func ReLoadSubConfig() {
 	HeroPower = CONFIG.HeroPower
+	Molly = CONFIG.Molly
+	Sensitive = CONFIG.Sensitive
 }
