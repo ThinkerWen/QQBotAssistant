@@ -17,7 +17,7 @@ func isSensitive(content string) bool {
 		log.Error("敏感词检测请求异常 Error: ", err)
 		return false
 	}
-	if gjson.Get(string(response), "data.minganCount").Int() == 0 {
+	if gjson.Get(string(response), "data.minganCount").Int() != 0 {
 		return true
 	}
 	return false
