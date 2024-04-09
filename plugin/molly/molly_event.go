@@ -4,25 +4,26 @@ import (
 	"QQBotAssistant/config"
 	"QQBotAssistant/util"
 	"context"
+	"fmt"
 	"github.com/charmbracelet/log"
 	"github.com/opq-osc/OPQBot/v2"
 	"github.com/opq-osc/OPQBot/v2/events"
 	"github.com/opq-osc/OPQBot/v2/faces"
 	"github.com/tidwall/gjson"
 	"strconv"
-	"strings"
 )
 
 func LoadMollyEvent(core *OPQBot.Core) {
 	loadGroupEvent(core)
-	log.Info("加载 Molly 成功!")
+	loadSettingsEvent(core)
+	log.Info("加载 莫莉云机器人 成功!")
 }
 
 func loadGroupEvent(core *OPQBot.Core) {
 	core.On(events.EventNameGroupMsg, func(ctx context.Context, event events.IEvent) {
 		groupMsg := event.ParseGroupMsg()
 		message := groupMsg.ExcludeAtInfo().ParseTextMsg().GetTextContent()
-		if strings.TrimSpace(message) == "" || groupMsg.GetAtInfo() == nil {
+		if !util.IsGroup(config.Molly.Groups, groupMsg.GetGroupUin()) || message == "" || groupMsg.GetAtInfo() == nil {
 			return
 		}
 		if groupMsg.GetAtInfo()[0].Uin != config.Molly.QQ {
@@ -41,5 +42,23 @@ func loadGroupEvent(core *OPQBot.Core) {
 			return
 		}
 		_ = util.SendGroupMsg(event, groupMsg, ctx, gjson.Get(result, "data|0.content").Str)
+	})
+}
+
+func loadSettingsEvent(core *OPQBot.Core) {
+	core.On(events.EventNameGroupMsg, func(ctx context.Context, event events.IEvent) {
+		groupMsg := event.ParseGroupMsg()
+		message := groupMsg.ExcludeAtInfo().ParseTextMsg().GetTextContent()
+		if !util.IsHost(groupMsg.GetSenderUin()) || message == "" {
+			return
+		}
+
+		if config.MOLLY_ON_KEY == message {
+			util.AddGroup(config.Molly.Groups, groupMsg.GetGroupUin(), "molly.groups")
+			_ = util.SendGroupMsg(event, groupMsg, ctx, fmt.Sprintf(config.MOLLY_ON, config.Molly.Name))
+		} else if config.MOLLY_OFF_KEY == message {
+			util.AddGroup(config.Molly.Groups, groupMsg.GetGroupUin(), "molly.groups")
+			_ = util.SendGroupMsg(event, groupMsg, ctx, fmt.Sprintf(config.MOLLY_OFF, config.Molly.Name))
+		}
 	})
 }

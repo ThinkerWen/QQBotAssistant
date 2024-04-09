@@ -34,27 +34,3 @@ func getHeroServer(server string) string {
 		return ""
 	}
 }
-
-func isHeroHost(host int64) bool {
-	return util.IsHost(config.HeroPower.Hosts, host)
-}
-
-func isHeroGroup(group int64) bool {
-	return util.IsGroup(config.HeroPower.Groups, group)
-}
-
-func addHeroHost(host int64) {
-	util.AddHost(config.HeroPower.Hosts, host, "hero_power.hosts")
-}
-
-func delHeroHost(host int64) {
-	util.DelHost(config.HeroPower.Hosts, host, "hero_power.hosts")
-}
-
-func addHeroGroup(group int64) {
-	util.AddGroup(config.HeroPower.Groups, group, "hero_power.groups")
-}
-
-func delHeroGroup(group int64) {
-	util.DelGroup(config.HeroPower.Groups, group, "hero_power.groups")
-}

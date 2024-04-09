@@ -4,39 +4,58 @@ import (
 	"QQBotAssistant/config"
 	"QQBotAssistant/util"
 	"context"
+	"fmt"
 	"github.com/charmbracelet/log"
 	"github.com/opq-osc/OPQBot/v2"
-	"github.com/opq-osc/OPQBot/v2/apiBuilder"
 	"github.com/opq-osc/OPQBot/v2/events"
-	"strings"
 )
 
 var sensitiveCount = make(map[int64]int)
 
 func LoadSensitiveEvent(core *OPQBot.Core) {
 	loadGroupEvent(core)
-	log.Info("加载 Sensitive 成功!")
+	loadSettingsEvent(core)
+	log.Info("加载 敏感词检测 成功!")
 }
 
 func loadGroupEvent(core *OPQBot.Core) {
 	core.On(events.EventNameGroupMsg, func(ctx context.Context, event events.IEvent) {
 		groupMsg := event.ParseGroupMsg()
 		message := groupMsg.ExcludeAtInfo().ParseTextMsg().GetTextContent()
-		if strings.TrimSpace(message) == "" || groupMsg.GetSenderUin() == event.GetCurrentQQ() {
+		if !util.IsGroup(config.Sensitive.Groups, groupMsg.GetGroupUin()) || message == "" || groupMsg.GetSenderUin() == event.GetCurrentQQ() {
 			return
 		}
 		if !isSensitive(message) {
 			return
 		}
+
 		if _, ok := sensitiveCount[groupMsg.GetSenderUin()]; !ok {
 			sensitiveCount[groupMsg.GetSenderUin()] = 1
-		} else if sensitiveCount[groupMsg.GetSenderUin()] < 2 {
+		} else if sensitiveCount[groupMsg.GetSenderUin()] < config.Sensitive.AlertTimes-1 {
 			sensitiveCount[groupMsg.GetSenderUin()]++
 		} else {
 			delete(sensitiveCount, groupMsg.GetSenderUin())
-			_ = apiBuilder.New(config.ApiUrl, event.GetCurrentQQ()).GroupManager().ProhibitedUser().ToGUin(groupMsg.GetGroupUin()).ToUid(groupMsg.GetSenderUid()).ShutTime(60).Do(ctx)
+			_ = util.ShutGroupMember(event, groupMsg, ctx, config.Sensitive.ShutSeconds)
 		}
-		_ = util.SendGroupMsg(event, groupMsg, ctx, "请勿发送不当言论，达到3次将禁言")
-		_ = apiBuilder.New(config.ApiUrl, event.GetCurrentQQ()).GroupManager().RevokeMsg().ToGUin(groupMsg.GetGroupUin()).MsgSeq(groupMsg.GetMsgSeq()).MsgRandom(groupMsg.GetMsgRandom()).Do(ctx)
+		_ = util.SendGroupMsg(event, groupMsg, ctx, fmt.Sprintf("请勿发送不当言论，达到%d次将禁言", config.Sensitive.AlertTimes))
+		_ = util.RevokeGroupMsg(event, groupMsg, ctx)
+	})
+}
+
+func loadSettingsEvent(core *OPQBot.Core) {
+	core.On(events.EventNameGroupMsg, func(ctx context.Context, event events.IEvent) {
+		groupMsg := event.ParseGroupMsg()
+		message := groupMsg.ExcludeAtInfo().ParseTextMsg().GetTextContent()
+		if !util.IsHost(groupMsg.GetSenderUin()) || message == "" {
+			return
+		}
+
+		if config.SENSITIVE_ON_KEY == message {
+			util.AddGroup(config.Sensitive.Groups, groupMsg.GetGroupUin(), "sensitive.groups")
+			_ = util.SendGroupMsg(event, groupMsg, ctx, config.SENSITIVE_ON)
+		} else if config.SENSITIVE_OFF_KEY == message {
+			util.AddGroup(config.Sensitive.Groups, groupMsg.GetGroupUin(), "sensitive.groups")
+			_ = util.SendGroupMsg(event, groupMsg, ctx, config.SENSITIVE_OFF)
+		}
 	})
 }

@@ -6,7 +6,7 @@ require (
 	github.com/charmbracelet/log v0.2.1
 	github.com/fsnotify/fsnotify v1.7.0
 	github.com/go-resty/resty/v2 v2.12.0
-	github.com/opq-osc/OPQBot/v2 v2.0.0-20231025075339-a352dad09f56
+	github.com/opq-osc/OPQBot/v2 v2.0.0-20240409061944-ff540d039f07
 	github.com/spf13/viper v1.18.2
 	github.com/tidwall/gjson v1.17.1
 )
