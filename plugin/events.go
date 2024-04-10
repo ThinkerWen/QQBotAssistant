@@ -2,8 +2,10 @@ package plugin
 
 import (
 	"QQBotAssistant/config"
+	"QQBotAssistant/plugin/course"
 	"QQBotAssistant/plugin/hero"
 	"QQBotAssistant/plugin/molly"
+	"QQBotAssistant/plugin/reply"
 	"QQBotAssistant/plugin/sensitive"
 	"QQBotAssistant/util"
 	"context"
@@ -19,6 +21,12 @@ func LoadAllEvents(core *OPQBot.Core) {
 	}
 	if config.Molly.Enable {
 		molly.LoadMollyEvent(core)
+	}
+	if config.OnlineCourse.Enable {
+		course.LoadOnlineCourseEvent(core)
+	}
+	if config.AutoReply.Enable {
+		reply.LoadAutoReplyEvent(core)
 	}
 	if config.Sensitive.Enable {
 		sensitive.LoadSensitiveEvent(core)

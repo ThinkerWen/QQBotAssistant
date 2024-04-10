@@ -24,12 +24,12 @@ func loadGroupEvent(core *OPQBot.Core) {
 			return
 		}
 
-		if message == config.HELP_KEY {
+		if message == config.HERO_HELP_KEY {
 			_ = util.SendGroupMsg(event, groupMsg, ctx, config.HERO_HELP)
 			return
 		}
 		params := strings.Split(message, " ")
-		if config.PFX != params[0] {
+		if config.HERO_PFX != params[0] {
 			return
 		}
 		if len(params) != 3 {

@@ -8,6 +8,8 @@ import (
 	"github.com/charmbracelet/log"
 	"github.com/opq-osc/OPQBot/v2"
 	"github.com/opq-osc/OPQBot/v2/events"
+	"github.com/spf13/viper"
+	"strings"
 )
 
 var sensitiveCount = make(map[int64]int)
@@ -25,7 +27,7 @@ func loadGroupEvent(core *OPQBot.Core) {
 		if !util.IsGroup(config.Sensitive.Groups, groupMsg.GetGroupUin()) || message == "" || groupMsg.GetSenderUin() == event.GetCurrentQQ() {
 			return
 		}
-		if !isSensitive(message) {
+		if !isForbiddenKeyword(message) && !isSensitive(message) {
 			return
 		}
 
@@ -56,6 +58,15 @@ func loadSettingsEvent(core *OPQBot.Core) {
 		} else if config.SENSITIVE_OFF_KEY == message {
 			util.AddGroup(config.Sensitive.Groups, groupMsg.GetGroupUin(), "sensitive.groups")
 			_ = util.SendGroupMsg(event, groupMsg, ctx, config.SENSITIVE_OFF)
+		} else if strings.Contains(message, config.SENSITIVE_ADD_KEY) {
+			params := strings.Split(message, " ")
+			if len(params) != 2 {
+				return
+			}
+			config.Sensitive.Keywords = append(config.Sensitive.Keywords, params[1])
+			viper.Set("sensitive.keywords", config.Sensitive.Keywords)
+			_ = viper.WriteConfig()
+			_ = util.SendGroupMsg(event, groupMsg, ctx, config.SENSITIVE_ADD_KEY+"成功")
 		}
 	})
 }

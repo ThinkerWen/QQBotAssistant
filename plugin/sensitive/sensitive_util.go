@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/charmbracelet/log"
 	"github.com/tidwall/gjson"
+	"strings"
 )
 
 func isSensitive(content string) bool {
@@ -19,6 +20,15 @@ func isSensitive(content string) bool {
 	}
 	if gjson.Get(string(response), "data.minganCount").Int() != 0 {
 		return true
+	}
+	return false
+}
+
+func isForbiddenKeyword(keyword string) bool {
+	for _, k := range config.Sensitive.Keywords {
+		if strings.Contains(keyword, k) {
+			return true
+		}
 	}
 	return false
 }
