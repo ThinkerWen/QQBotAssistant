@@ -43,7 +43,7 @@ func loadGroupEvent(core *OPQBot.Core) {
 			_ = util.SendGroupMsg(event, groupMsg, ctx, config.HERO_WRONG_TOKEN)
 			return
 		}
-		_ = util.SendGroupMsg(event, groupMsg, ctx, getHeroPower(config.HeroPower.Token, hero, server))
+		_ = util.SendGroupMsg(event, groupMsg, ctx, getHeroPower(hero, server))
 	})
 }
 

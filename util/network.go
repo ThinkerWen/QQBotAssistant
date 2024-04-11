@@ -1,6 +1,7 @@
 package util
 
 import (
+	"QQBotAssistant/config"
 	"github.com/go-resty/resty/v2"
 	"time"
 )
@@ -10,6 +11,10 @@ func getRestyClient(headers map[string]string, client *resty.Client) *resty.Clie
 		client = resty.New()
 	} else {
 		return client
+	}
+
+	if config.CONFIG.Proxy != "" {
+		client.SetProxy(config.CONFIG.Proxy)
 	}
 
 	client.SetHeaders(headers)

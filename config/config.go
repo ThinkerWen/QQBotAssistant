@@ -21,6 +21,7 @@ var AutoReplyList = make([]map[string]interface{}, 0)
 type Config struct {
 	Name         string             `mapstructure:"name"`
 	ApiUrl       string             `mapstructure:"api_url"`
+	Proxy        string             `mapstructure:"proxy"`
 	Hosts        []int64            `mapstructure:"hosts"`
 	Molly        MollyConfig        `mapstructure:"molly"`
 	HeroPower    HeroPowerConfig    `mapstructure:"hero_power"`
@@ -31,7 +32,6 @@ type Config struct {
 
 type HeroPowerConfig struct {
 	Enable bool    `mapstructure:"enable" json:"enable"`
-	Token  string  `mapstructure:"token" json:"token"`
 	Groups []int64 `mapstructure:"groups"`
 }
 
@@ -46,7 +46,6 @@ type MollyConfig struct {
 
 type SensitiveConfig struct {
 	Enable      bool     `mapstructure:"enable"`
-	Token       string   `mapstructure:"token"`
 	Keywords    []string `mapstructure:"keywords"`
 	AlertTimes  int      `mapstructure:"alert_times" json:"alert_times"`
 	ShutSeconds int      `mapstructure:"shut_seconds" json:"shut_seconds"`
@@ -88,7 +87,6 @@ func initDefaultConfig() {
 	var config map[string]interface{}
 
 	heroPower := new(HeroPowerConfig)
-	heroPower.Token = "free"
 	heroPower.Enable = true
 	viper.SetDefault("hero_power", *heroPower)
 
@@ -102,7 +100,6 @@ func initDefaultConfig() {
 	data = []byte{}
 	config = make(map[string]interface{})
 	sensitive := new(SensitiveConfig)
-	sensitive.Token = "free"
 	sensitive.Enable = true
 	sensitive.AlertTimes = 3
 	sensitive.ShutSeconds = 60
@@ -133,6 +130,7 @@ func initDefaultConfig() {
 		loadAutoReplyList(autoReplyFile)
 	}
 
+	viper.SetDefault("proxy", "")
 	viper.SetDefault("hosts", []int64{})
 	viper.SetDefault("name", "QQBotAssistant")
 	viper.SetDefault("api_url", "http://127.0.0.1:8086")

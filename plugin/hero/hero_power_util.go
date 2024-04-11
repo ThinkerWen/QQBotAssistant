@@ -8,16 +8,16 @@ import (
 	"strings"
 )
 
-func getHeroPower(token, hero, server string) string {
-	api := fmt.Sprintf("https://www.hive-net.cn/funtools/heroPower/getPower?hero=%s&type=%s&token=%s", hero, server, token)
+func getHeroPower(hero, server string) string {
+	api := fmt.Sprintf("https://www.somekey.cn/mini/hero/getHeroInfo.php?hero=%s&type=%s", hero, server)
 	response, err := util.RequestGET(api, nil, nil)
-	if err != nil || gjson.Get(string(response), "code").Int() != 0 {
+	if err != nil || gjson.Get(string(response), "code").Int() != 200 {
 		return "请求出错，请联系作者！"
 	}
 	data := gjson.Get(string(response), "data").String()
-	return fmt.Sprintf(config.HERO_POWER_RESULT, gjson.Get(data, "server").Str, gjson.Get(data, "name").Str, gjson.Get(data, "updatetime").Str,
-		gjson.Get(data, "province.name").Str, gjson.Get(data, "province.power").Str, gjson.Get(data, "city.name").Str,
-		gjson.Get(data, "city.power").Str, gjson.Get(data, "area.name").Str, gjson.Get(data, "area.power").Str)
+	return fmt.Sprintf(config.HERO_POWER_RESULT, gjson.Get(data, "platform").Str, gjson.Get(data, "name").Str, gjson.Get(data, "updatetime").Str,
+		gjson.Get(data, "province").Str, gjson.Get(data, "provincePower").Str, gjson.Get(data, "city").Str,
+		gjson.Get(data, "cityPower").Str, gjson.Get(data, "area").Str, gjson.Get(data, "areaPower").Str)
 }
 
 func getHeroServer(server string) string {
