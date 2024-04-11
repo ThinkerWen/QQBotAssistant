@@ -5,13 +5,17 @@ import (
 	"QQBotAssistant/util"
 	"fmt"
 	"github.com/charmbracelet/log"
+	"github.com/go-resty/resty/v2"
 	"github.com/tidwall/gjson"
+	"time"
 )
 
 func searchReason(param string) string {
 	res := ""
 	link := fmt.Sprintf("https://www.hive-net.cn/backend/wangke/search?token=%s&question=%s", config.OnlineCourse.Token, param)
-	response, err := util.RequestGET(link, nil, nil)
+	client := resty.New()
+	client.SetTimeout(10 * time.Second)
+	response, err := util.RequestGET(link, nil, client)
 	if err != nil || gjson.Get(string(response), "code").Int() != 0 {
 		log.Error("搜索接口调用失败 Error: ", err)
 		return ""

@@ -4,13 +4,17 @@ import (
 	"QQBotAssistant/config"
 	"QQBotAssistant/util"
 	"fmt"
+	"github.com/go-resty/resty/v2"
 	"github.com/tidwall/gjson"
 	"strings"
+	"time"
 )
 
 func getHeroPower(hero, server string) string {
 	api := fmt.Sprintf("https://www.somekey.cn/mini/hero/getHeroInfo.php?hero=%s&type=%s", hero, server)
-	response, err := util.RequestGET(api, nil, nil)
+	client := resty.New()
+	client.SetTimeout(10 * time.Second)
+	response, err := util.RequestGET(api, nil, client)
 	if err != nil || gjson.Get(string(response), "code").Int() != 200 {
 		return "请求出错，请联系作者！"
 	}
