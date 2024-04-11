@@ -73,7 +73,7 @@ func loadSettingsEvent(core *OPQBot.Core) {
 		if config.REPLY_ON_KEY == message {
 			util.AddGroup(config.AutoReply.Groups, groupMsg.GetGroupUin(), "auto_reply.groups")
 		} else if config.REPLY_OFF_KEY == message {
-			util.AddGroup(config.AutoReply.Groups, groupMsg.GetGroupUin(), "auto_reply.groups")
+			util.DelGroup(config.AutoReply.Groups, groupMsg.GetGroupUin(), "auto_reply.groups")
 		} else {
 			return
 		}

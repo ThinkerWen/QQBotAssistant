@@ -53,7 +53,7 @@ func loadSettingsEvent(core *OPQBot.Core) {
 			util.AddGroup(config.OnlineCourse.Groups, groupMsg.GetGroupUin(), "online_course.groups")
 			_ = util.SendGroupMsg(event, groupMsg, ctx, config.COURSE_ON)
 		} else if config.COURSE_OFF_KEY == message {
-			util.AddGroup(config.OnlineCourse.Groups, groupMsg.GetGroupUin(), "online_course.groups")
+			util.DelGroup(config.OnlineCourse.Groups, groupMsg.GetGroupUin(), "online_course.groups")
 			_ = util.SendGroupMsg(event, groupMsg, ctx, config.COURSE_OFF)
 		}
 	})

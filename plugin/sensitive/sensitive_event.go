@@ -56,7 +56,7 @@ func loadSettingsEvent(core *OPQBot.Core) {
 			util.AddGroup(config.Sensitive.Groups, groupMsg.GetGroupUin(), "sensitive.groups")
 			_ = util.SendGroupMsg(event, groupMsg, ctx, config.SENSITIVE_ON)
 		} else if config.SENSITIVE_OFF_KEY == message {
-			util.AddGroup(config.Sensitive.Groups, groupMsg.GetGroupUin(), "sensitive.groups")
+			util.DelGroup(config.Sensitive.Groups, groupMsg.GetGroupUin(), "sensitive.groups")
 			_ = util.SendGroupMsg(event, groupMsg, ctx, config.SENSITIVE_OFF)
 		} else if strings.Contains(message, config.SENSITIVE_ADD_KEY) {
 			params := strings.Split(message, " ")

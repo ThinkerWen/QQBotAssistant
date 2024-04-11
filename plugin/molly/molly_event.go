@@ -57,7 +57,7 @@ func loadSettingsEvent(core *OPQBot.Core) {
 			util.AddGroup(config.Molly.Groups, groupMsg.GetGroupUin(), "molly.groups")
 			_ = util.SendGroupMsg(event, groupMsg, ctx, fmt.Sprintf(config.MOLLY_ON, config.Molly.Name))
 		} else if config.MOLLY_OFF_KEY == message {
-			util.AddGroup(config.Molly.Groups, groupMsg.GetGroupUin(), "molly.groups")
+			util.DelGroup(config.Molly.Groups, groupMsg.GetGroupUin(), "molly.groups")
 			_ = util.SendGroupMsg(event, groupMsg, ctx, fmt.Sprintf(config.MOLLY_OFF, config.Molly.Name))
 		}
 	})

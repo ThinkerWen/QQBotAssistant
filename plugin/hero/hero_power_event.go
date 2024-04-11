@@ -59,7 +59,7 @@ func loadSettingsEvent(core *OPQBot.Core) {
 			util.AddGroup(config.HeroPower.Groups, groupMsg.GetGroupUin(), "hero_power.groups")
 			_ = util.SendGroupMsg(event, groupMsg, ctx, config.HERO_ON)
 		} else if config.HERO_OFF_KEY == message {
-			util.AddGroup(config.HeroPower.Groups, groupMsg.GetGroupUin(), "hero_power.groups")
+			util.DelGroup(config.HeroPower.Groups, groupMsg.GetGroupUin(), "hero_power.groups")
 			_ = util.SendGroupMsg(event, groupMsg, ctx, config.HERO_OFF)
 		}
 	})
