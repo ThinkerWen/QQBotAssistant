@@ -24,6 +24,7 @@ func mollyChat(content ContentMolly) string {
 	headers["Api-Secret"] = config.Molly.ApiSecret
 	headers["Content-Type"] = "application/json;charset=UTF-8"
 	client := resty.New()
+	client.SetHeaders(headers)
 	client.SetTimeout(10 * time.Second)
 	if data, errJson := json.Marshal(content); errJson == nil {
 		if response, err := util.RequestPOST("https://api.mlyai.com/reply", string(data), headers, client); err == nil {
