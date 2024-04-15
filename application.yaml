@@ -1,0 +1,37 @@
+api_url: http://127.0.0.1:8086
+auto_reply:
+    enable: true
+    groups: []
+hero_power:
+    enable: true
+    groups:
+        - 726925125
+hosts: []
+molly:
+    api_key: u323whq2r701wrx9
+    api_secret: imc8jrka
+    enable: true
+    groups:
+        - 103172845
+        - 726925125
+        - 907230911
+        - 497793737
+        - 438156900
+        - 413867828
+        - 618699460
+    name: 小风
+    qq: 614392281
+name: QQBotAssistant
+online_course:
+    enable: true
+    token: free
+    limit: 1
+    groups: []
+proxy: ""
+sensitive:
+    alert_times: 3
+    enable: true
+    groups:
+        - 726925125
+    keywords: []
+    shut_seconds: 60
