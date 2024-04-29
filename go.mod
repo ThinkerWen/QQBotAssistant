@@ -6,7 +6,8 @@ require (
 	github.com/charmbracelet/log v0.2.1
 	github.com/fsnotify/fsnotify v1.7.0
 	github.com/go-resty/resty/v2 v2.12.0
-	github.com/opq-osc/OPQBot/v2 v2.0.0-20240409061944-ff540d039f07
+	github.com/imroc/req/v3 v3.42.1
+	github.com/opq-osc/OPQBot/v2 v2.0.0-20240417142542-0c94b36ed14d
 	github.com/spf13/viper v1.18.2
 	github.com/tidwall/gjson v1.17.1
 	gopkg.in/yaml.v3 v3.0.1
@@ -25,7 +26,6 @@ require (
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
-	github.com/imroc/req/v3 v3.42.1 // indirect
 	github.com/jasonlvhit/gocron v0.0.1 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/klauspost/compress v1.17.2 // indirect

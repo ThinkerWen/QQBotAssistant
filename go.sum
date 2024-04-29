@@ -80,8 +80,8 @@ github.com/onsi/ginkgo/v2 v2.13.0 h1:0jY9lJquiL8fcf3M4LAXN5aMlS/b2BV86HFFPCPMgE4
 github.com/onsi/ginkgo/v2 v2.13.0/go.mod h1:TE309ZR8s5FsKKpuB1YAQYBzCaAfUgatB/xlT/ETL/o=
 github.com/onsi/gomega v1.7.0/go.mod h1:ex+gbHU/CVuBBDIJjb2X0qEXbFg53c61hWP/1CpauHY=
 github.com/onsi/gomega v1.27.10 h1:naR28SdDFlqrG6kScpT8VWpu1xWY5nJRCF3XaYyBjhI=
-github.com/opq-osc/OPQBot/v2 v2.0.0-20240409061944-ff540d039f07 h1:o6cLqe291j2qQgelvuMc6ivhX0qCpsCUtaTpHErPlkA=
-github.com/opq-osc/OPQBot/v2 v2.0.0-20240409061944-ff540d039f07/go.mod h1:nZ13UYKJDDYwwLqWMr3Drtw1UGOrGimXrTLddGMKNs4=
+github.com/opq-osc/OPQBot/v2 v2.0.0-20240417142542-0c94b36ed14d h1:dzDFN/a8bP080EQ1s4wa2fmxISht92qzRBhJNXXKJsg=
+github.com/opq-osc/OPQBot/v2 v2.0.0-20240417142542-0c94b36ed14d/go.mod h1:nZ13UYKJDDYwwLqWMr3Drtw1UGOrGimXrTLddGMKNs4=
 github.com/pelletier/go-toml/v2 v2.1.0 h1:FnwAJ4oYMvbT/34k9zzHuZNrhlz48GB3/s6at6/MHO4=
 github.com/pelletier/go-toml/v2 v2.1.0/go.mod h1:tJU2Z3ZkXwnxa4DPO899bsyIoywizdUvyaeZurnPPDc=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=

@@ -49,13 +49,13 @@ func matchPattern(str, pattern string) bool {
 	}
 }
 
-func checkReply(msg string, state *AutoReplyState) int {
+func checkReply(msg, rawMessage string, state *AutoReplyState) int {
 	switch state.Step {
 	case 0:
 		state.Ask = msg
 		state.Step = 1
 	case 1:
-		state.Answer = msg
+		state.Answer = rawMessage
 		state.Step = 2
 	case 2:
 		if msg == "1" || msg == "2" {
