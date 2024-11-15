@@ -1,15 +1,6 @@
-- answer: 自动回复
-  ask: 测试
-  range: 726925125
 - answer: 么么哒
   ask: 我爱你
   range: 0
 - answer: 我嘞个骚刚
   ask: 我嘞*
-  range: 726925125
-- answer: 啊对对对
-  ask: '*对'
-  range: 726925125
-- answer: 操什么
-  ask: '*操*'
-  range: 726925125
+  range: 123456
